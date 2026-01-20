@@ -1,12 +1,13 @@
 package jakartamission.udbl.miniprojet.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "sale_records")
+@NamedQuery(name = "SaleRecord.findAll", query = "SELECT s FROM SaleRecord s ORDER BY s.dateSale DESC")
 public class SaleRecord {
 
     @Id
@@ -22,53 +24,74 @@ public class SaleRecord {
 
     @NotBlank
     @Column(nullable = false, length = 64)
-    private String productSku;
+    private String sku;
+
+    @Column(nullable = false, length = 128)
+    private String productName;
 
     @NotNull
-    @Column(nullable = false)
-    private LocalDate saleDate;
+    @Column(name = "date_sale", nullable = false)
+    private LocalDateTime dateSale;
 
     @Min(1)
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 
-    @NotNull
-    @Column(nullable = false, precision = 14, scale = 2)
-    private BigDecimal totalAmount;
+    @Column(name = "unit_price", nullable = false, precision = 14, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(name = "total_price", nullable = false, precision = 14, scale = 2)
+    private BigDecimal totalPrice;
 
     public Long getId() {
         return id;
     }
 
-    public String getProductSku() {
-        return productSku;
+    public String getSku() {
+        return sku;
     }
 
-    public void setProductSku(String productSku) {
-        this.productSku = productSku;
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
-    public LocalDate getSaleDate() {
-        return saleDate;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setSaleDate(LocalDate saleDate) {
-        this.saleDate = saleDate;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getQuantity() {
+    public LocalDateTime getDateSale() {
+        return dateSale;
+    }
+
+    public void setDateSale(LocalDateTime dateSale) {
+        this.dateSale = dateSale;
+    }
+
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Min;
@@ -16,6 +18,7 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "products")
 @NamedQueries({
+        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
         @NamedQuery(name = "Product.findBySku", query = "SELECT p FROM Product p WHERE p.sku = :sku"),
         @NamedQuery(name = "Product.outOfStock", query = "SELECT p FROM Product p WHERE p.stockQuantity <= 0")
 })
@@ -49,6 +52,12 @@ public class Product {
 
     @Version
     private long version;
+
+    @PrePersist
+    @PreUpdate
+    protected void updateTimestamp() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;

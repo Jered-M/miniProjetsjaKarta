@@ -4,24 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
-import jakartamission.udbl.miniprojet.resources.EmplacementResource;
-import jakartamission.udbl.miniprojet.resources.JakartaEE10Resource;
-import jakartamission.udbl.miniprojet.resources.ReportResource;
+import jakartamission.udbl.miniprojet.resources.DemoResource;
 
 /**
  * Configures Jakarta RESTful Web Services for the application.
  * 
  * @author Juneau
  */
-@ApplicationPath("resources")
+@ApplicationPath("api")
 public class JakartaRestConfiguration extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
-        classes.add(JakartaEE10Resource.class);
-        classes.add(EmplacementResource.class);
-        classes.add(ReportResource.class);
+        classes.add(DemoResource.class);
         return classes;
     }
 }

@@ -25,14 +25,8 @@ if (-not (Test-Path $DB_DIR)) {
 Write-Host "🚀 Création de la base de données Derby..." -ForegroundColor Cyan
 Push-Location $DB_DIR
 
-$javaCmd = @(
-    "$JAVA_HOME\bin\java",
-    "-cp", "$DERBY_HOME\lib\derby.jar;$DERBY_HOME\lib\derbytools.jar",
-    "org.apache.derby.tools.ij",
-    $SQL_FILE
-)
-
-& $javaCmd[0] $javaCmd[1..($javaCmd.Length - 1)]
+$cp = "$DERBY_HOME\lib\derby.jar;$DERBY_HOME\lib\derbytools.jar"
+& "$JAVA_HOME\bin\java" -cp $cp "org.apache.derby.tools.ij" $SQL_FILE
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "✅ Base de données créée avec succès!" -ForegroundColor Green

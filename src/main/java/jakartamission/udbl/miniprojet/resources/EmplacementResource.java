@@ -3,6 +3,7 @@ package jakartamission.udbl.miniprojet.resources;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -25,6 +26,7 @@ import jakartamission.udbl.miniprojet.service.InventoryService;
 @Path("emplacements")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Stateless
 public class EmplacementResource {
 
     @Inject
@@ -35,9 +37,60 @@ public class EmplacementResource {
 
     @POST
     public Response assign(@Valid LocationRequest request) {
-        Product product = inventoryService.assignOrUpdateLocation(request);
-        URI created = uriInfo.getAbsolutePathBuilder().path(product.getSku()).build();
-        return Response.created(created).entity(toResponse(product)).build();
+        try {
+            System.out.println("\n🔵 POST /emplacements - Début du traitement");
+            System.out.println("   SKU: " + (request.getSku() != null ? request.getSku() : "null"));
+            System.out.println("   Name: " + (request.getName() != null ? request.getName() : "null"));
+            System.out.println(
+                    "   Location: " + (request.getLocationCode() != null ? request.getLocationCode() : "null"));
+            System.out.println("   Qty: " + request.getStockQuantity());
+
+            // Validation manuelle pour être sûr
+            if (request.getSku() == null || request.getSku().trim().isEmpty()) {
+                throw new IllegalArgumentException("SKU ne peut pas être vide");
+            }
+            if (request.getName() == null || request.getName().trim().isEmpty()) {
+                throw new IllegalArgumentException("Name ne peut pas être vide");
+            }
+            if (request.getLocationCode() == null || request.getLocationCode().trim().isEmpty()) {
+                throw new IllegalArgumentException("LocationCode ne peut pas être vide");
+            }
+            if (request.getStockQuantity() < 0) {
+                throw new IllegalArgumentException("StockQuantity ne peut pas être négatif");
+            }
+
+            System.out.println("   ✓ Validation réussie");
+
+            System.out.println("   Appel de inventoryService.assignOrUpdateLocation()...");
+            Product product = inventoryService.assignOrUpdateLocation(request);
+
+            System.out.println("   ✓ Produit créé/mis à jour: ID=" + product.getId());
+
+            URI created = uriInfo.getAbsolutePathBuilder().path(product.getSku()).build();
+            System.out.println("✅ Réponse prête: " + product.getSku() + "\n");
+
+            return Response.created(created).entity(toResponse(product)).build();
+        } catch (IllegalArgumentException e) {
+            System.err.println("❌ Validation échouée: " + e.getMessage());
+            e.printStackTrace();
+            return Response.status(400)
+                    .entity(new ErrorResponse(400, "Validation: " + e.getMessage()))
+                    .build();
+        } catch (Exception e) {
+            System.err.println("❌ ERREUR dans assign(): " + e.getClass().getName());
+            System.err.println("   Message: " + e.getMessage());
+            e.printStackTrace();
+
+            Throwable cause = e.getCause();
+            if (cause != null) {
+                System.err.println("   Cause: " + cause.getClass().getName() + " - " + cause.getMessage());
+                cause.printStackTrace();
+            }
+
+            return Response.status(500)
+                    .entity(new ErrorResponse(500, e.getClass().getSimpleName() + ": " + e.getMessage()))
+                    .build();
+        }
     }
 
     @PUT
@@ -45,6 +98,15 @@ public class EmplacementResource {
     public Response updateLocation(@PathParam("sku") String sku, LocationRequest request) {
         Product product = inventoryService.updateLocation(sku, request.getLocationCode(), request.getLocationNote());
         return Response.ok(toResponse(product)).build();
+    }
+
+    @GET
+    @Path("/all")
+    public Response getAllProducts() {
+        List<ProductLocationResponse> products = inventoryService.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+        return Response.ok(products).build();
     }
 
     @GET
@@ -66,22 +128,31 @@ public class EmplacementResource {
         return getBySku(sku);
     }
 
-    @GET
-    @Path("/all")
-    public Response getAllProducts() {
-        List<ProductLocationResponse> products = inventoryService.findAll().stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-        return Response.ok(products).build();
-    }
-
     private ProductLocationResponse toResponse(Product product) {
         return new ProductLocationResponse(
                 product.getSku(),
                 product.getName(),
                 product.getLocationCode(),
-                product.getLocationNote(),
+                product.getLocationNote() != null ? product.getLocationNote() : "",
                 product.getStockQuantity(),
                 product.getUpdatedAt());
+    }
+
+    public static class ErrorResponse {
+        public int status;
+        public String message;
+
+        public ErrorResponse(int status, String message) {
+            this.status = status;
+            this.message = message;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }

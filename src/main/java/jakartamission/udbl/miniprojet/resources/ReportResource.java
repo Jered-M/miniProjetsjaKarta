@@ -2,6 +2,7 @@ package jakartamission.udbl.miniprojet.resources;
 
 import java.time.LocalDate;
 import java.util.List;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -23,6 +24,7 @@ import jakartamission.udbl.miniprojet.service.ReportService;
 @Path("reports")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Stateless
 public class ReportResource {
 
     @Inject
