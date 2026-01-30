@@ -1,4 +1,4 @@
-package jakartamission.udbl.miniprojet.resources;
+package jakartamission.udbl.miniprojet.dto;
 
 /**
  * Classe pour standardiser les réponses d'erreur JSON

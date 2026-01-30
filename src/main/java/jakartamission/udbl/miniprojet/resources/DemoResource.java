@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakartamission.udbl.miniprojet.model.Product;
 import jakartamission.udbl.miniprojet.model.SaleRecord;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -171,9 +172,9 @@ public class DemoResource {
                     .getResultList();
             Map<String, Object> report = new HashMap<>();
             report.put("totalSales", sales.size());
-            double totalAmount = 0;
+            BigDecimal totalAmount = BigDecimal.ZERO;
             for (SaleRecord sale : sales) {
-                totalAmount += sale.getTotalPrice();
+                totalAmount = totalAmount.add(sale.getTotalPrice());
             }
             report.put("totalAmount", totalAmount);
             report.put("sales", sales);

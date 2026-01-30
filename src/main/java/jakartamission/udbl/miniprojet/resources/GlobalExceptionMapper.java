@@ -20,7 +20,8 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
             status = Response.Status.BAD_REQUEST.getStatusCode();
         }
 
-        ErrorResponse error = new ErrorResponse(status, message);
+        jakartamission.udbl.miniprojet.dto.ErrorResponse error = new jakartamission.udbl.miniprojet.dto.ErrorResponse(
+                status, message);
 
         return Response
                 .status(status)

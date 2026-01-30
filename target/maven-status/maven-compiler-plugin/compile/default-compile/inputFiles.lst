@@ -1,4 +1,5 @@
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\resources\ErrorResponse.java
+C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\service\MicroserviceClient.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\resources\JakartaEE10Resource.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\dto\SaleRecordRequest.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\dto\SalesAggregateResponse.java
@@ -15,5 +16,6 @@ C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\u
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\resources\DemoResource.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\dto\ProductLocationResponse.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\resources\DebugResource.java
+C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\resources\MicroserviceResource.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\service\NotificationService.java
 C:\Users\HP\Documents\NetBeansProjects\miniProjet\src\main\java\jakartamission\udbl\miniprojet\JakartaRestConfiguration.java

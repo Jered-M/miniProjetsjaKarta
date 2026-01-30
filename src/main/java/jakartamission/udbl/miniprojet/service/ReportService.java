@@ -41,10 +41,15 @@ public class ReportService {
                     .orElseThrow(() -> new IllegalArgumentException("Produit introuvable: " + request.getSku()));
 
             SaleRecord record = new SaleRecord();
-            record.setProductSku(product.getSku());
-            record.setSaleDate(saleDate);
+            record.setSku(product.getSku());
+            record.setProductName(product.getName());
+            record.setDateSale(saleDate.atStartOfDay());
             record.setQuantity(request.getQuantity());
-            record.setTotalAmount(request.getTotalAmount());
+            // Calculer le prix unitaire depuis le montant total et la quantité
+            BigDecimal unitPrice = request.getTotalAmount().divide(BigDecimal.valueOf(request.getQuantity()), 2,
+                    java.math.RoundingMode.HALF_UP);
+            record.setUnitPrice(unitPrice);
+            record.setTotalPrice(request.getTotalAmount());
             em.persist(record);
 
             int remaining = Math.max(0, product.getStockQuantity() - request.getQuantity());
@@ -64,7 +69,7 @@ public class ReportService {
             String grouping = groupBy != null ? groupBy.toLowerCase() : "month";
 
             List<SaleRecord> records = em.createQuery(
-                    "SELECT s FROM SaleRecord s WHERE s.saleDate BETWEEN :from AND :to ORDER BY s.saleDate",
+                    "SELECT s FROM SaleRecord s WHERE CAST(s.dateSale AS date) BETWEEN :from AND :to ORDER BY s.dateSale",
                     SaleRecord.class)
                     .setParameter("from", start)
                     .setParameter("to", end)
@@ -73,12 +78,12 @@ public class ReportService {
             Map<String, Aggregation> buckets = new LinkedHashMap<>();
             for (SaleRecord record : records) {
                 String key = grouping.equals("day")
-                        ? record.getSaleDate().format(DateTimeFormatter.ISO_DATE)
-                        : record.getSaleDate().getYear() + "-"
-                                + String.format("%02d", record.getSaleDate().getMonthValue());
+                        ? record.getDateSale().toLocalDate().format(DateTimeFormatter.ISO_DATE)
+                        : record.getDateSale().getYear() + "-"
+                                + String.format("%02d", record.getDateSale().getMonthValue());
 
                 buckets.computeIfAbsent(key, k -> new Aggregation())
-                        .add(record.getQuantity(), record.getTotalAmount());
+                        .add(record.getQuantity(), record.getTotalPrice());
             }
 
             List<SalesAggregateResponse> response = new ArrayList<>();

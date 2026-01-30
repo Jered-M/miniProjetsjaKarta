@@ -8,6 +8,7 @@ jakartamission\udbl\miniprojet\dto\SaleRecordRequest.class
 jakartamission\udbl\miniprojet\resources\DebugResource.class
 jakartamission\udbl\miniprojet\service\ReportService$Aggregation.class
 jakartamission\udbl\miniprojet\dto\SalesAggregateResponse.class
+jakartamission\udbl\miniprojet\service\MicroserviceClient.class
 jakartamission\udbl\miniprojet\resources\ErrorResponse.class
 jakartamission\udbl\miniprojet\resources\GlobalExceptionMapper.class
 jakartamission\udbl\miniprojet\resources\TestResource.class
@@ -20,3 +21,4 @@ jakartamission\udbl\miniprojet\resources\JakartaEE10Resource.class
 jakartamission\udbl\miniprojet\service\ReportService.class
 jakartamission\udbl\miniprojet\model\SaleRecord.class
 jakartamission\udbl\miniprojet\resources\EmplacementResource.class
+jakartamission\udbl\miniprojet\resources\MicroserviceResource.class

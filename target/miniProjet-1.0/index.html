@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +9,156 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; height: 100%; width: 100%; }
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: #0f172a;
             color: #e2e8f0;
         }
-        #root { height: 100%; width: 100%; }
-        .sidebar { background: #1e293b; border-right: 1px solid #334155; }
-        .nav-item { color: #94a3b8; transition: all 0.3s; cursor: pointer; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 12px; }
-        .nav-item:hover { background: #334155; color: #f1f5f9; }
-        .nav-item.active { background: #3b82f6; color: white; font-weight: 600; }
-        .header { background: #1e293b; border-bottom: 1px solid #334155; }
-        .stat-card { background: #334155; border: 1px solid #475569; border-radius: 8px; padding: 16px; transition: all 0.3s; }
-        .stat-card:hover { border-color: #3b82f6; transform: translateY(-2px); }
-        .btn-primary { background: #3b82f6; color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.3s; }
-        .btn-primary:hover { background: #2563eb; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
-        .table-row { border-bottom: 1px solid #334155; padding: 12px 0; display: grid; grid-template-columns: 80px 1fr 120px 80px 150px 40px; align-items: center; gap: 16px; }
-        .table-row:hover { background: rgba(59, 130, 246, 0.1); }
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .modal { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; width: 90%; max-width: 500px; }
-        .modal input, .modal select { width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; color: #f1f5f9; border-radius: 6px; margin-top: 6px; }
-        .badge-rupture { background: #ef4444; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-        .icon { width: 20px; height: 20px; display: inline-block; }
+
+        #root {
+            height: 100%;
+            width: 100%;
+        }
+
+        .sidebar {
+            background: #1e293b;
+            border-right: 1px solid #334155;
+        }
+
+        .nav-item {
+            color: #94a3b8;
+            transition: all 0.3s;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        .nav-item.active {
+            background: #3b82f6;
+            color: white;
+            font-weight: 600;
+        }
+
+        .header {
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+
+        .stat-card {
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .table-row {
+            border-bottom: 1px solid #334155;
+            padding: 12px 0;
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 80px 150px 40px;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .table-row:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal input,
+        .modal select {
+            width: 100%;
+            padding: 8px 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #f1f5f9;
+            border-radius: 6px;
+            margin-top: 6px;
+        }
+
+        .badge-rupture {
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 
@@ -42,24 +167,78 @@
         const API_BASE = 'http://localhost:8080/miniProjet/api';
 
         // SVG Icons
-        const PackageIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
-        const AlertIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>;
-        const EuroIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 6H9a6 6 0 0 0 0 12h6"/><path d="M13 15H7a4 4 0 0 1 0-8h6"/></svg>;
-        const MapPinIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>;
-        const DashboardIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>;
-        const BellIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>;
-        const BarChartIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="13" width="4" height="8"/><rect x="10" y="5" width="4" height="16"/><rect x="17" y="9" width="4" height="12"/></svg>;
-        const SearchIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
-        const PlusIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+        const PackageIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>;
+        const AlertIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>;
+        const EuroIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 6H9a6 6 0 0 0 0 12h6" /><path d="M13 15H7a4 4 0 0 1 0-8h6" /></svg>;
+        const MapPinIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>;
+        const DashboardIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>;
+        const BellIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>;
+        const BarChartIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="13" width="4" height="8" /><rect x="10" y="5" width="4" height="16" /><rect x="17" y="9" width="4" height="12" /></svg>;
+        const SearchIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>;
+        const PlusIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>;
 
         const StockLoc = () => {
+            // RAPPORTS (doivent être ici, pas dans le JSX)
+            const fetchStockOut = async () => {
+                setReportLoading(true);
+                setReportError('');
+                try {
+                    console.log('Appel de /reports/stock-out...');
+                    const res = await fetch(`${API_BASE}/reports/stock-out`);
+                    console.log('Réponse reçue:', res.status);
+                    if (res.ok) {
+                        const data = await res.json();
+                        console.log('Données rupture:', data);
+                        setStockOut(data);
+                        setReportsFetched(prev => ({ ...prev, stockOut: true }));
+                    } else {
+                        setStockOut([]);
+                        setReportError(`Erreur API (${res.status}): Impossible de récupérer les ruptures.`);
+                    }
+                } catch (e) {
+                    console.error('Erreur fetch stock-out:', e);
+                    setStockOut([]);
+                    setReportError('Erreur réseau : Vérifiez que le serveur est lancé et que /api/reports/stock-out est accessible.');
+                } finally {
+                    setReportLoading(false);
+                }
+            };
+
+            const fetchSalesReport = async () => {
+                setReportLoading(true);
+                setReportError('');
+                try {
+                    const today = new Date().toISOString().slice(0, 10);
+                    const res = await fetch(`${API_BASE}/reports/sales?from=${today}&to=${today}&groupBy=day`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setSalesReport(data);
+                        setReportsFetched(prev => ({ ...prev, sales: true }));
+                    } else {
+                        setSalesReport([]);
+                        setReportError('Erreur lors de la récupération du rapport de ventes.');
+                    }
+                } catch (e) {
+                    setSalesReport([]);
+                    setReportError('Erreur réseau lors de la récupération du rapport de ventes.');
+                } finally {
+                    setReportLoading(false);
+                }
+            };
             const [activeTab, setActiveTab] = useState('dashboard');
             const [showModal, setShowModal] = useState(false);
+            const [showEditModal, setShowEditModal] = useState(false);
+            const [editData, setEditData] = useState({ sku: '', location: '' });
             const [products, setProducts] = useState([]);
             const [formData, setFormData] = useState({ sku: '', location: '' });
             const [loading, setLoading] = useState(false);
             const [message, setMessage] = useState('');
             const [apiError, setApiError] = useState('');
+            const [stockOut, setStockOut] = useState([]);
+            const [salesReport, setSalesReport] = useState([]);
+            const [reportLoading, setReportLoading] = useState(false);
+            const [reportError, setReportError] = useState('');
+            const [reportsFetched, setReportsFetched] = useState({ stockOut: false, sales: false });
 
             useEffect(() => {
                 fetchProducts();
@@ -84,6 +263,60 @@
                 }
             };
 
+            // Modification d'emplacement
+            const handleEdit = (product) => {
+                setEditData({ sku: product.sku, location: product.locationCode || '' });
+                setShowEditModal(true);
+                setMessage('');
+            };
+
+            const handleEditSubmit = async () => {
+                if (!editData.sku || !editData.location) {
+                    setMessage({ type: 'error', text: 'Veuillez remplir tous les champs' });
+                    return;
+                }
+                setLoading(true);
+                setMessage('');
+                try {
+                    // Récupérer le produit complet pour remplir le LocationRequest
+                    const product = products.find(p => p.sku === editData.sku);
+                    const body = {
+                        sku: editData.sku,
+                        name: product ? product.name : '',
+                        locationCode: editData.location,
+                        locationNote: editData.location,
+                        stockQuantity: product ? product.stockQuantity : 0
+                    };
+                    const res = await fetch(`${API_BASE}/emplacements/${editData.sku}/location`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body)
+                    });
+                    if (res.ok) {
+                        setMessage({ type: 'success', text: `✓ Emplacement modifié pour ${editData.sku}` });
+                        setTimeout(() => {
+                            setShowEditModal(false);
+                            setEditData({ sku: '', location: '' });
+                            setMessage('');
+                            fetchProducts();
+                        }, 1200);
+                    } else {
+                        let errMsg = 'Erreur lors de la modification';
+                        try {
+                            const err = await res.json();
+                            errMsg = err.error || errMsg;
+                        } catch {
+                            errMsg = 'Erreur serveur ou API injoignable';
+                        }
+                        throw new Error(errMsg);
+                    }
+                } catch (e) {
+                    setMessage({ type: 'error', text: `✗ ${e.message}` });
+                } finally {
+                    setLoading(false);
+                }
+            };
+
             const handleAssign = async () => {
                 if (!formData.sku || !formData.location) {
                     setMessage({ type: 'error', text: 'Veuillez remplir tous les champs' });
@@ -95,7 +328,7 @@
                     // Étape 1: Vérifier ou créer le produit
                     let product = null;
                     const checkRes = await fetch(`${API_BASE}/produits/${formData.sku}`);
-                    
+
                     if (checkRes.ok) {
                         product = await checkRes.json();
                     } else {
@@ -191,7 +424,7 @@
                                 <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(to right, #3b82f6, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', fontSize: '12px', flexShrink: 0, textAlign: 'center' }}>M JD</div>
                                 <div style={{ flex: 1, minWidth: 0 }}>
                                     <p style={{ fontSize: '13px', fontWeight: '600', margin: 0, color: '#f1f5f9' }}>jered</p>
-                                    <p style={{ fontSize: '11px', color: '#94a3b8', margin: 0 }}>John Doe</p>
+                                    <p style={{ fontSize: '11px', color: '#94a3b8', margin: 0 }}>Minono</p>
                                     <p style={{ fontSize: '10px', color: '#64748b', margin: 0 }}>Admin</p>
                                 </div>
                             </div>
@@ -203,7 +436,7 @@
                         {/* HEADER */}
                         <header style={{ background: '#1e293b', borderBottom: '1px solid #334155', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#0f172a', border: '1px solid #334155', borderRadius: '6px', padding: '8px 12px', color: '#94a3b8', flex: 1, maxWidth: '300px' }}>
-                                <SearchIcon /> 
+                                <SearchIcon />
                                 <input placeholder="Rechercher..." style={{ background: 'transparent', border: 'none', color: '#e2e8f0', outline: 'none', flex: 1, fontSize: '14px' }} />
                             </div>
                             <button className="btn-primary" onClick={() => setShowModal(true)}>
@@ -274,12 +507,13 @@
                                         </div>
                                         <div style={{ padding: '16px 24px' }}>
                                             {products && products.length > 0 ? products.map((p, i) => (
-                                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '100px 1fr 150px 120px 100px', gap: '16px', padding: '12px 0', borderBottom: '1px solid #334155', alignItems: 'center' }}>
+                                                <div key={i} style={{ display: 'grid', gridTemplateColumns: '100px 1fr 150px 120px 100px 60px', gap: '16px', padding: '12px 0', borderBottom: '1px solid #334155', alignItems: 'center' }}>
                                                     <span style={{ color: '#3b82f6', fontFamily: 'monospace', fontSize: '12px', fontWeight: '600' }}>{p.sku}</span>
                                                     <span style={{ color: '#f1f5f9' }}>{p.name}</span>
                                                     <span style={{ color: '#94a3b8', fontSize: '14px' }}>{p.locationCode || '—'}</span>
                                                     <span style={{ color: '#10b981', fontWeight: '600' }}>{p.stockQuantity || 0} u.</span>
                                                     <span>{(p.stockQuantity === 0 || p.stockQuantity === null) ? <span className="badge-rupture">RUPTURE</span> : <span style={{ color: '#10b981', fontSize: '12px', fontWeight: '600' }}>✓ OK</span>}</span>
+                                                    <button className="btn-primary" style={{ padding: '4px 8px', fontSize: '12px' }} onClick={() => handleEdit(p)}>Modifier</button>
                                                 </div>
                                             )) : <p style={{ textAlign: 'center', color: '#94a3b8', padding: '24px' }}>Aucun produit disponible</p>}
                                         </div>
@@ -287,7 +521,7 @@
                                 </>
                             )}
 
-            {activeTab === 'emplacements' && (
+                            {activeTab === 'emplacements' && (
                                 <>
                                     <div style={{ marginBottom: '24px' }}>
                                         <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', margin: 0 }}>Emplacements</h2>
@@ -322,21 +556,82 @@
                                         <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', margin: 0 }}>Rapports</h2>
                                         <p style={{ color: '#94a3b8', margin: 0 }}>Analysez les ventes et l'inventaire.</p>
                                     </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', marginBottom: '32px' }}>
-                                        <div style={{ background: '#334155', border: '1px solid #475569', borderRadius: '8px', padding: '16px' }}>
-                                            <p style={{ color: '#94a3b8', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', margin: 0, marginBottom: '8px' }}>Total Ventes</p>
-                                            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f1f5f9', margin: 0 }}>0€</p>
-                                        </div>
-                                        <div style={{ background: '#334155', border: '1px solid #475569', borderRadius: '8px', padding: '16px' }}>
-                                            <p style={{ color: '#94a3b8', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', margin: 0, marginBottom: '8px' }}>Produits</p>
-                                            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f1f5f9', margin: 0 }}>{products.length}</p>
-                                        </div>
-                                        <div style={{ background: '#334155', border: '1px solid #475569', borderRadius: '8px', padding: '16px' }}>
-                                            <p style={{ color: '#94a3b8', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', margin: 0, marginBottom: '8px' }}>Ruptures</p>
-                                            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f1f5f9', margin: 0 }}>{products.filter(p => p.stockQuantity === 0 || p.stockQuantity === null).length}</p>
-                                        </div>
+                                    <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+                                        <button className="btn-primary" onClick={fetchStockOut} disabled={reportLoading}>Produits en rupture</button>
+                                        <button className="btn-primary" onClick={fetchSalesReport} disabled={reportLoading}>Rapport ventes (jour)</button>
                                     </div>
+                                    {reportLoading && <p style={{ color: '#3b82f6' }}>⏳ Chargement des données...</p>}
+                                    {reportError && <div style={{ color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', padding: '12px', borderRadius: '6px', margin: '12px 0' }}>{reportError}</div>}
+
+                                    {/* Rupture de stock */}
+                                    {reportsFetched.stockOut && (
+                                        <div style={{ marginBottom: '24px', background: '#1e293b', padding: '20px', borderRadius: '8px', border: '1px solid #334155' }}>
+                                            <h4 style={{ color: '#ef4444', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <AlertIcon /> Produits en rupture de stock
+                                            </h4>
+                                            {stockOut.length > 0 ? (
+                                                <div style={{ display: 'grid', gap: '8px' }}>
+                                                    {stockOut.map((p, i) => (
+                                                        <div key={i} style={{ padding: '10px', background: '#0f172a', borderRadius: '4px', borderLeft: '4px solid #ef4444', display: 'flex', justifyContent: 'space-between' }}>
+                                                            <span><strong>{p.sku}</strong> - {p.name}</span>
+                                                            <span style={{ color: '#94a3b8' }}>📍 {p.locationCode}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p style={{ color: '#10b981', margin: 0, fontWeight: '600' }}>✅ Aucun produit en rupture de stock actuellement.</p>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {/* Rapport ventes */}
+                                    {reportsFetched.sales && (
+                                        <div style={{ background: '#1e293b', padding: '20px', borderRadius: '8px', border: '1px solid #334155' }}>
+                                            <h4 style={{ color: '#3b82f6', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <BarChartIcon /> Ventes du jour (agrégées)
+                                            </h4>
+                                            {salesReport.length > 0 ? (
+                                                <div style={{ display: 'grid', gap: '8px' }}>
+                                                    {salesReport.map((r, i) => (
+                                                        <div key={i} style={{ padding: '10px', background: '#0f172a', borderRadius: '4px', borderLeft: '4px solid #3b82f6', display: 'flex', justifyContent: 'space-between' }}>
+                                                            <span>📅 {r.date || r.period}</span>
+                                                            <span><strong>{r.totalSales}</strong> ventes | <strong>{r.totalAmount} €</strong></span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p style={{ color: '#94a3b8', margin: 0 }}>Aucune vente enregistrée pour aujourd'hui.</p>
+                                            )}
+                                        </div>
+                                    )}
                                 </>
+                            )}
+                            {/* MODAL MODIFICATION EMPLACEMENT */}
+                            {showEditModal && (
+                                <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+                                    <div className="modal" onClick={e => e.stopPropagation()}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', margin: 0 }}>Modifier l'emplacement</h3>
+                                            <button style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '24px' }} onClick={() => setShowEditModal(false)}>×</button>
+                                        </div>
+                                        {message && (
+                                            <div style={{ padding: '12px', borderRadius: '6px', marginBottom: '16px', background: message.type === 'error' ? '#7f1d1d' : '#064e3b', color: message.type === 'error' ? '#fca5a5' : '#86efac', fontSize: '14px', fontWeight: '500' }}>
+                                                {message.text}
+                                            </div>
+                                        )}
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <label style={{ fontSize: '14px', fontWeight: '600', display: 'block', marginBottom: '6px', color: '#e2e8f0' }}>SKU</label>
+                                            <input type="text" value={editData.sku} disabled style={{ background: '#334155' }} />
+                                        </div>
+                                        <div style={{ marginBottom: '24px' }}>
+                                            <label style={{ fontSize: '14px', fontWeight: '600', display: 'block', marginBottom: '6px', color: '#e2e8f0' }}>Nouvel emplacement</label>
+                                            <input type="text" placeholder="Ex: Allée A, Étagère 3" value={editData.location} onChange={e => setEditData({ ...editData, location: e.target.value })} disabled={loading} />
+                                        </div>
+                                        <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', opacity: loading ? '0.6' : '1', cursor: loading ? 'not-allowed' : 'pointer' }} onClick={handleEditSubmit} disabled={loading}>
+                                            {loading ? '⏳ Traitement...' : '✓ Modifier'}
+                                        </button>
+                                    </div>
+                                </div>
                             )}
 
                             {activeTab === 'notifications' && (
@@ -370,11 +665,11 @@
                                 )}
                                 <div style={{ marginBottom: '16px' }}>
                                     <label style={{ fontSize: '14px', fontWeight: '600', display: 'block', marginBottom: '6px', color: '#e2e8f0' }}>Produit</label>
-                                    <input type="text" placeholder="SKU du produit" value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} disabled={loading} />
+                                    <input type="text" placeholder="SKU du produit" value={formData.sku} onChange={e => setFormData({ ...formData, sku: e.target.value })} disabled={loading} />
                                 </div>
                                 <div style={{ marginBottom: '24px' }}>
                                     <label style={{ fontSize: '14px', fontWeight: '600', display: 'block', marginBottom: '6px', color: '#e2e8f0' }}>Zone / Emplacement</label>
-                                    <input type="text" placeholder="Ex: Allée A, Étagère 3" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} disabled={loading} />
+                                    <input type="text" placeholder="Ex: Allée A, Étagère 3" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} disabled={loading} />
                                 </div>
                                 <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', opacity: loading ? '0.6' : '1', cursor: loading ? 'not-allowed' : 'pointer' }} onClick={handleAssign} disabled={loading}>
                                     {loading ? '⏳ Traitement...' : '✓ Confirmer l\'assignation'}
@@ -389,4 +684,5 @@
         ReactDOM.render(<StockLoc />, document.getElementById('root'));
     </script>
 </body>
+
 </html>
