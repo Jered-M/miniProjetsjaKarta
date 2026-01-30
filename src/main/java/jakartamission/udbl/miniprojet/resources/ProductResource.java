@@ -41,21 +41,12 @@ public class ProductResource {
      */
     @GET
     public Response listAll() {
-        try {
-            System.out.println("📍 GET /api/produits - Début");
-            List<ProductLocationResponse> products = inventoryService.findAll().stream()
-                    .map(this::toResponse)
-                    .collect(Collectors.toList());
-            System.out.println("✅ Produits trouvés: " + products.size());
-            return Response.ok(products).build();
-        } catch (Exception e) {
-            System.err.println("❌ Erreur lors de listAll: " + e.getMessage());
-            e.printStackTrace();
-            Map<String, Object> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            error.put("status", 500);
-            return Response.status(500).entity(error).build();
-        }
+        System.out.println("📍 GET /api/produits - Début");
+        List<ProductLocationResponse> products = inventoryService.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+        System.out.println("✅ Produits trouvés: " + products.size());
+        return Response.ok(products).build();
     }
 
     /**
@@ -68,6 +59,25 @@ public class ProductResource {
                 .map(product -> Response.ok(toResponse(product)).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND)
                         .entity("Produit avec le SKU " + sku + " introuvable").build());
+    }
+
+    /**
+     * Créer un nouveau produit ou mettre à jour un existant
+     */
+    @POST
+    public Response createProduct(@Valid LocationRequest request) {
+        try {
+            System.out.println("📍 POST /api/produits - Création/Mise à jour pour SKU: " + request.getSku());
+            Product product = inventoryService.assignOrUpdateLocation(request);
+            URI created = uriInfo.getAbsolutePathBuilder().path(product.getSku()).build();
+            return Response.created(created).entity(toResponse(product)).build();
+        } catch (Exception e) {
+            System.err.println("❌ Erreur lors de createProduct: " + e.getMessage());
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            error.put("status", 500);
+            return Response.status(500).entity(error).build();
+        }
     }
 
     /**

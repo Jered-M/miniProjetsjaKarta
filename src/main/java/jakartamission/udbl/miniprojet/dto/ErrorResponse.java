@@ -1,5 +1,7 @@
 package jakartamission.udbl.miniprojet.dto;
 
+import java.time.LocalDateTime;
+
 /**
  * Classe pour standardiser les réponses d'erreur JSON
  */
@@ -8,10 +10,14 @@ public class ErrorResponse {
     private String message;
     private String timestamp;
 
+    public ErrorResponse() {
+        this.timestamp = LocalDateTime.now().toString();
+    }
+
     public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
-        this.timestamp = java.time.LocalDateTime.now().toString();
+        this.timestamp = LocalDateTime.now().toString();
     }
 
     public int getStatus() {

@@ -164,7 +164,7 @@
 
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const API_BASE = 'http://localhost:8080/miniProjet/api';
+        const API_BASE = 'api';
 
         // SVG Icons
         const PackageIcon = () => <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>;
@@ -325,45 +325,33 @@
                 setLoading(true);
                 setMessage('');
                 try {
-                    // Étape 1: Vérifier ou créer le produit
-                    let product = null;
-                    const checkRes = await fetch(`${API_BASE}/produits/${formData.sku}`);
-
-                    if (checkRes.ok) {
-                        product = await checkRes.json();
-                    } else {
-                        // Créer le produit s'il n'existe pas
-                        const createRes = await fetch(`${API_BASE}/produits`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                sku: formData.sku,
-                                name: `Produit ${formData.sku}`,
-                                locationCode: formData.location,
-                                locationNote: formData.location,
-                                stockQuantity: 50
-                            })
-                        });
-                        if (createRes.ok) {
-                            product = await createRes.json();
-                        } else {
-                            throw new Error('Impossible de créer le produit');
+                    // On essaie de récupérer le nom si le produit existe déjà
+                    let productName = `Produit ${formData.sku}`;
+                    try {
+                        const checkRes = await fetch(`${API_BASE}/produits/${formData.sku}`);
+                        if (checkRes.ok) {
+                            const existingProduct = await checkRes.json();
+                            productName = existingProduct.name;
                         }
+                    } catch (e) {
+                        console.log("Nouveau produit détecté");
                     }
 
-                    // Étape 2: Assigner l'emplacement
+                    // Une seule requête vers /emplacements car InventoryService gère le persist/merge
                     const res = await fetch(`${API_BASE}/emplacements`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             sku: formData.sku,
+                            name: productName,
                             locationCode: formData.location,
                             locationNote: formData.location,
-                            stockQuantity: 50
+                            stockQuantity: 50 // Valeur par défaut
                         })
                     });
+
                     if (res.ok) {
-                        setMessage({ type: 'success', text: `✓ Emplacement assigné à ${formData.sku}` });
+                        setMessage({ type: 'success', text: `✓ Emplacement assigné avec succès à ${formData.sku}` });
                         setTimeout(() => {
                             setShowModal(false);
                             setFormData({ sku: '', location: '' });
@@ -372,7 +360,7 @@
                         }, 1500);
                     } else {
                         const err = await res.json();
-                        throw new Error(err.error || 'Erreur lors de l\'assignation');
+                        throw new Error(err.message || err.error || 'Erreur lors de l\'assignation');
                     }
                 } catch (e) {
                     setMessage({ type: 'error', text: `✗ ${e.message}` });
